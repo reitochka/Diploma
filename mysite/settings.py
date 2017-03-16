@@ -25,7 +25,7 @@ SECRET_KEY = '0pirw3_uk5c-y$n&$eis(5-8(y==f$jm%1qn7g!ivlkf(#m=%6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['62.109.1.235','127.0.0.1']
+ALLOWED_HOSTS = ['reitochka.fvds.ru','62.109.1.235','127.0.0.1']
 
 
 # Application definition
