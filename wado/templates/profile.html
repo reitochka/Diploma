@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+<html lang="en">
+<head>
+    {% block title %}{{ user.username }} Account {% endblock %}
+</head>
+<body>
+{% block content %}
+    <h1 style="font-family: 'Kurale', serif">Hello, dear {{ user.username }}!</h1><br>
+    <p>Your can change password:</p>
+
+    <form method="POST" action="{% url 'profile' %}" class="form-horizontal">
+            {% csrf_token %}
+            <input type="text" id="inputPassword" placeholder="enter new password" name="new_password" value="" >
+            <button type="submit" class="save btn btn-default">Change</button>
+    </form>
+    {% if msg %}
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>{{ msg }}</strong>
+        </div>
+    {% endif %}
+{% endblock %}
+</body>
+</html>

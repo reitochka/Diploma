@@ -11,9 +11,9 @@
         <div class="panel-body">
             <form action="" method="post" class="form-horizontal">
                 {% csrf_token %}
-                <legend>Авторизация</legend>
+                <legend style="font-family: 'Kurale', serif"> Авторизация</legend>
                 {{ form.as_p }}
-                <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign in</button>
+                <button style="font-family: 'Kurale', serif" type="submit" class="btn btn-primary"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign in</button>
             </form><hr>
             <a href="/accounts/register/"> Don't have an account? </a>
         </div>

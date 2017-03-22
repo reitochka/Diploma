@@ -4,11 +4,20 @@
 <html>
 <head>
     {% block title %}WADO{% endblock %}
+    <link rel="stylesheet" type="text/css" href={% static 'css/Readable.css' %}>
+    <link href="https://fonts.googleapis.com/css?family=Kurale" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href={% static 'css/personal.css' %}>
+    <link rel="stylesheet" href={% static 'font-awesome/css/font-awesome.min.css' %}>
+    <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
 </head>
 <body>
 {% block content %}
-<h1> {{ text }} </h1>
+<h3 style="font-family: 'Kurale', serif"> {{ text }} </h3>
+<p>You can change your password in profile and search some DICOM files in search. You can always return to this page by clicking pink WADO</p>
+
+<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Tips can help you" data-original-title="Tips">button with tips</button>
 
 {% endblock %}
+
 </body>
 </html>

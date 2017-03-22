@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load staticfiles %}
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href={% static "css/personal.css" %}>
+    {% block title %}Search{% endblock %}
+</head>
+<body>
+    {% block content %}
+
+    return to search results button (may be using cache or smth)
+    <br>
+    <div class="padding">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h5 style="font-family: 'Kurale', serif"> Some info about this series </h5></div>
+            <div class="panel-footer"> <strong> Patient name: </strong>  {{ series.Study.Patient.Name }} </div>
+            <div class="panel-footer"> <strong> Patient id: </strong> {{ series.Study.Patient.PatientID }} </div>
+            <div class="panel-footer"> <strong> Patient birthdate: </strong> {{ series.Study.Patient.BirthDate }} </div>
+            <div class="panel-footer"> <strong> Patient sex: </strong> {{ series.Study.Patient.Sex }} </div>
+        </div>
+    </div>
+    Download zip
+    {% if images %}
+        <table class="table table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th> URL </th>
+                    <th> Preview </th>
+                    <th> Download </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for image in images %}
+                <tr onclick="window.location.href='/series/{{ serie.SeriesInstanceUID }}/'; return false">
+                    <td> {{ image.InstanceNumber }} </td>
+                    <td>{{ image.URL }}</td>
+                    <td> here would be previw of picture </td>
+                    <td> here would be links to DICOM file, JPEG, json (xml) </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+{% endblock %}
+</body>
+</html>

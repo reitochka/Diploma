@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load staticfiles %}
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href={% static "css/personal.css" %}>
+    {% block title %}Search{% endblock %}
+
+</head>
+<body>
+    {% block content %}
+    <h3 style="font-family: 'Kurale', serif"> Write name of patient below </h3>
+    Now here is 3 patients Mishechkina, Belyaeva and Reut
+    <br>
+    <br>
+    <form action="{% url 'search' %}" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Search" class="btn btn-primary">
+    </form>
+    <br>
+
+    {% if series %}
+        <div class="small_tips">
+            <div class="alert alert-dismissible alert-info">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                You can click on some series for more details!
+            </div>
+        </div>
+        <table class="table table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th> Patient's Name </th>
+                    <th> ID </th>
+                    <th> Birth date </th>
+                    <th> Sex </th>
+                    <th> Study date </th>
+                    <th> Modality </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for serie in series %}
+                <tr onclick="window.location.href='/series/{{ serie.SeriesInstanceUID }}/'; return false">
+                    <td> {{ serie.Study.Patient.id }} </td>
+                    <td>{{ serie.Study.Patient.Name }}</td>
+                    <td>{{ serie.Study.Patient.PatientID }}</td>
+                    <td>{{ serie.Study.Patient.BirthDate }} </td>
+                    <td>{{ serie.Study.Patient.Sex }} </td>
+                    <td>{{ serie.Study.Date }} </td>
+                    <td>{{ serie.Modality }} </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+{% endblock %}
+</body>
+</html>

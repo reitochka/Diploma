@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from django.core.exceptions import ValidationError
-from . import models
+from . import models, forms
 from django.db.models import Q
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -16,6 +16,36 @@ def index(request):
     text = 'Hello, I''m WADO service'
     context = {'text': text}
     return render(request, 'index.html', context)
+
+@login_required
+def search(request):
+    series = []
+    if request.method == "POST":
+        form = forms.SearchForm(request.POST)
+        series = models.Series.objects.filter(Study__Patient__Name__icontains=form['name'].value())
+
+        #results = models.User.objects.all().filter(name__icontains=form['name'].value(), age__lte=form['age'].value())
+    else:
+        form = forms.SearchForm()
+    return render(request, 'search.html', {'form': form, 'series': series})
+
+@login_required
+def series_detail(request, SeriesInstanceUID):
+    images = []
+    series = models.Series.objects.get(SeriesInstanceUID=SeriesInstanceUID)
+    images = models.Image.objects.filter(Series_id = series.id)
+    return  render(request,  'series.html', {'series': series, 'images': images})
+
+
+@login_required
+def profile(request):
+    msg = ''
+    if request.method == "POST":
+        request.user.set_password(request.POST['new_password'])
+        request.user.save()
+        msg = 'Password successfully changed!'
+    return render(request, 'profile.html', {'msg': msg})
+
 
 class RegisterFormView(FormView):
     form_class = UserCreationForm

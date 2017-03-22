@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href={% static 'css/Readable.css' %}>
+    <link href="https://fonts.googleapis.com/css?family=Kurale" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href={% static 'css/personal.css' %}>
     <link rel="stylesheet" href={% static 'font-awesome/css/font-awesome.min.css' %}>
 </head>
@@ -20,13 +21,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">WADO</a>
+          <a class="navbar-brand" style="font-family: 'Kurale', serif; color: #860946; font-size: 20px"  href="/">WADO</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/search"><i class="fa fa-search" aria-hidden="true"></i> Search<span class="sr-only">(current)</span></a></li>
-            <li><a href="profile/"><i class="fa fa-user" aria-hidden="true"></i> Profile</a></li>
+            <li class="active" style="font-family: 'Kurale', serif; font-size: 20px"><a href="/search"><i class="fa fa-search" aria-hidden="true"></i> Search<span class="sr-only">(current)</span></a></li>
+            <li style="font-family: 'Kurale', serif; font-size: 20px"><a href="/profile"><i class="fa fa-user" aria-hidden="true"></i> Profile</a></li>
 
           </ul>
             <!--
@@ -37,7 +38,7 @@
             <button type="submit" class="btn btn-default">Submit</button>-->
           </form>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/accounts/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout [{{ user.username }}] </a></li>
+            <li style="font-family: 'Kurale', serif; font-size: 20px"><a href="/accounts/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout {{ user.username }} </a></li>
           </ul>
         </div>
       </div>

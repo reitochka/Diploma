@@ -1,8 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Kurale');
 h1 a {
-        color: #FCA205;
+        font-family: 'Kurale', serif;
     }
 
 body {
-        padding-left: 40px;
-        padding-right: 10%;
+        padding-left: 1%;
+        padding-right: 1%;
+        font-family: 'Kurale', serif;
     }
+.padding {
+    padding-left: 1%;
+    padding-right: 50%;
+}
+.small_tips {
+    padding-left: 1%;
+    padding-right: 80%;
+}
