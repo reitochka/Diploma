@@ -1,9 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import Group, Permission
+from django.contrib.contenttypes.models import ContentType
 
 class Patient(models.Model):
     PatientID = models.CharField(max_length = 50, blank = True)
     Name = models.CharField(max_length = 20, blank = True)
     BirthDate = models.DateField(blank = True)
+    Age = models.CharField(max_length=10, blank=True)
     SEX = [
         ('F', 'Female'),
         ('M', 'Male'),
@@ -21,7 +24,7 @@ class Study(models.Model):
         'Patient',
         on_delete = models.CASCADE,
     )
-    StudyInstanceUID = models.CharField(max_length = 50)
+    StudyInstanceUID = models.CharField(max_length = 50, unique=True)
     Date = models.DateField(blank = True)
     Time = models.TimeField(blank = True)
     StudyID = models.CharField(max_length = 50, blank = True)
@@ -46,9 +49,11 @@ class Series(models.Model):
         'Study',
         on_delete = models.CASCADE,
     )
-    SeriesInstanceUID = models.CharField(max_length = 50)
-    Modality = models.CharField(max_length = 50)
-    SeriesNumber = models.CharField(max_length = 50, blank = True)
+    SeriesInstanceUID = models.CharField(max_length = 50, unique=True)
+    Modality = models.CharField(max_length = 10)
+    SeriesNumber = models.PositiveSmallIntegerField(blank=True) #models.CharField(max_length = 50, blank = True)
+    SOPClassUID = models.CharField(max_length = 10, blank=True)
+    Manufacturer = models.CharField(max_length = 10, blank=True)
 
     class Meta:
         verbose_name_plural = "Series"
@@ -61,11 +66,14 @@ class Image(models.Model):
         'Series',
         on_delete=models.CASCADE,
     )
+    SOPInstanceUID = models.CharField(max_length=50, blank=True)
     URL = models.CharField(max_length=100)
-    InstanceNumber = models.CharField(max_length=50, blank=True)
+    InstanceNumber = models.PositiveSmallIntegerField(blank=True) # models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return self.InstanceNumber
+
+
 
 
 

@@ -20,9 +20,10 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^accounts/login/$', views.LoginFormView.as_view(), name='login'),
     url(r'^accounts/register/$', views.RegisterFormView.as_view()),
-    url(r'^accounts/logout/', views.LogoutView.as_view()),
+    url(r'^accounts/logout/$', views.LogoutView.as_view()),
     url(r'^search/', views.search, name='search'),
     url(r'^profile/$', views.profile, name='profile'),
-    url(r'^series/(?P<SeriesInstanceUID>[0-9.]+)/$', views.series_detail, name='series_detail')
+    url(r'^series/(?P<SeriesInstanceUID>[0-9.]+)/$', views.series_detail, name='series_detail'),
+    url(r'^advanced_search/', views.advanced_search, name='advanced_search'),
 
 ]

@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic.base import View
 from django.contrib.auth.decorators import login_required
 
+
 @login_required
 def index(request):
     text = 'Hello, I''m WADO service'
@@ -20,14 +21,45 @@ def index(request):
 @login_required
 def search(request):
     series = []
-    if request.method == "POST":
-        form = forms.SearchForm(request.POST)
-        series = models.Series.objects.filter(Study__Patient__Name__icontains=form['name'].value())
+    if  'name' in request.GET and request.GET['name']:
+        p = request.GET['name']
+        #form = forms.SearchForm(request.GET)
+        series = models.Series.objects.filter(Study__Patient__Name__icontains=p)
 
         #results = models.User.objects.all().filter(name__icontains=form['name'].value(), age__lte=form['age'].value())
+    '''else:
+        form = forms.SearchForm()'''
+    return render(request, 'search.html', {'series': series})
+
+@login_required
+def advanced_search(request):
+    series = []
+    if request.method == "POST":
+        form = forms.AdvancedSearchForm(request.POST)
+        '''series = models.Series.objects.filter(Study__Patient__Name__icontains=form['name'].value())'''
+        if form['Name'].value():
+            series = models.Series.objects.filter(Study__Patient__Name__icontains=form['Name'].value())
+        if form['PatientID'].value():
+            if series:
+                series = series.filter(Study__Patient__PatientID__icontains=form['Name'].value())
+            else:
+                series = models.Series.objects.filter(Study__Patient__PatientID__icontains=form['Name'].value())
+        if form['BirthDateMin'].value():
+            if series:
+                series = series.filter(Study__Patient__BirthDate__range=(form['BirthDateMin'].value(),form['BirthDateMax'].value()))
+            else:
+                series = models.Series.objects.filter(Study__Patient__BirthDate__range=(form['BirthDateMin'].value(),form['BirthDateMax'].value()))
+        if form['Sex'].value()!='O':
+            if series:
+                series = series.filter(Study__Patient__Sex=form['Sex'].value())
+            else:
+                series = models.Series.objects.filter(Study__Patient__Sex=form['Sex'].value())
+        #results = models.User.objects.all().filter(name__icontains=form['name'].value(), age__lte=form['age'].value())
     else:
-        form = forms.SearchForm()
-    return render(request, 'search.html', {'form': form, 'series': series})
+        form = forms.AdvancedSearchForm()
+    return render(request, 'advanced_search.html', {'form': form, 'series': series})
+
+
 
 @login_required
 def series_detail(request, SeriesInstanceUID):
