@@ -6,7 +6,17 @@
 </head>
 <body>
 {% block content %}
-    <h1 style="font-family: 'Kurale', serif">Hello, dear {{ user.username }}!</h1><br>
+    <h1>Hello, dear {{ user.username }}!</h1><br>
+
+    <h4> Your status is
+    {% if medstatus %}
+        Medical personal, you have access to all information in DICOM files.
+    {% else %}
+        Researcher, you have don't have access to some perspnal information in DICOM files.
+    {% endif %}
+    </h4>
+    <br>
+
     <p>Your can change password:</p>
 
     <form method="POST" action="{% url 'profile' %}" class="form-horizontal">

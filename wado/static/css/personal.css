@@ -1,12 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Kurale');
-h1 a {
-        font-family: 'Kurale', serif;
-    }
 
 body {
         padding-left: 1%;
         padding-right: 1%;
-        font-family: 'Kurale', serif;
     }
 .padding {
     padding-left: 1%;
@@ -14,4 +9,12 @@ body {
 }
 .small_tips {
     padding-right: 80%;
+}
+
+.login_register {
+    padding-top: 5%;
+}
+
+.padding_top {
+    padding-top: 5%;
 }

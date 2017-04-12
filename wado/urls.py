@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import include,url
 from . import views
 
+
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^accounts/login/$', views.LoginFormView.as_view(), name='login'),
@@ -25,5 +26,10 @@ urlpatterns = [
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^series/(?P<SeriesInstanceUID>[0-9.]+)/$', views.series_detail, name='series_detail'),
     url(r'^advanced_search/', views.advanced_search, name='advanced_search'),
-
+    url(r'^download', views.DICOMDownloadView.as_view()),
+    url(r'^get_dicom/', views.GetDicom, name='GetDicom'),
+    url(r'^get_zip/', views.send_zip, name='send_zip'),
+    url(r'^get_jpeg/', views.get_jpeg, name='get_jpeg'),
+    url(r'^static-path/(?P<path>[a-zA-Z0-9_-]+\.[a-zA-Z0-9]{1,4})$', views.static_path, name='static_path'),
+    url(r'^wado/(?P<token>[0-9.]+)/', views.wado_uri, name='wado_uri'),
 ]

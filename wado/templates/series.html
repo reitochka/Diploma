@@ -9,20 +9,73 @@
 <body>
     {% block content %}
 
-    return to search results button (may be using cache or smth)
     <br>
-    <div class="padding">
-        <div class="panel panel-default">
-            <div class="panel-heading"><h5 style="font-family: 'Kurale', serif"> Some info about this series </h5></div>
-            <div class="panel-footer"> <strong> Patient name: </strong>  {{ series.Study.Patient.Name }} </div>
-            <div class="panel-footer"> <strong> Patient id: </strong> {{ series.Study.Patient.PatientID }} </div>
-            <div class="panel-footer"> <strong> Patient birthdate: </strong> {{ series.Study.Patient.BirthDate }} </div>
-            <div class="panel-footer"> <strong> Patient sex: </strong> {{ series.Study.Patient.Sex }} </div>
-        </div>
+    <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <ul class="list-unstyled">
+                    <li class="pull-right">
+                        <form action="/get_zip/" method="GET">
+                            <input type="hidden" value="{{ series.id }}" name="id">
+                            <button class="btn btn-link" type="submit"> <i class="fa fa-file-archive-o" aria-hidden="true"> download zip </i> </button>
+                        </form>
+                    </li>
+                    <li><strong> <h4> Info about series </h4> </strong> </li>
+                    <a href="#top"> <i class="fa fa-pencil-square-o" aria-hidden="true"> change data </i> </a>
+                    <a href="#list"> <i class="fa fa-list-ul" aria-hidden="true"> list of images </i></a>
+                </ul>
+            </li>
+            {% for item in ds %}
+                {% if not 'OB' in item.VR and not 'OW' in item.VR and not 'UL' in item.VR %}
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-2">
+                                     {{ item.tag }}
+                                </div>
+                                <div class="col-md-4">
+                                    {{ item.name }}:
+                                </div>
+                                <div class="col-md-6">
+                                    {{ item.value }}
+                                </div>
+                        </div>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
     </div>
-    Download zip
+
+       <!-- <div class="col-lg-5">
+            <div class="panel panel-default">
+                <div class="panels-heading"><h5> Some info about this series </h5> <form action="/get_zip/" method="GET">
+                    <input type="hidden" value="{{ image.id }}" name="id">
+                    <button class="btn btn-link" type="submit">Download zip</button>
+                </form></div>
+                {% for item in ds %}
+                    {% if not 'OB' in item.VR and not 'OW' in item.VR %}
+                        <div class="panel-footer row">
+
+                                <div class="col-md-2">
+                                    <strong> ({{ item.tag }}) </strong>
+                                </div>
+                                <div class="col-md-4">
+                                    {{ item.name }}:
+                                </div>
+                                <div class="col-md-6">
+                                    {{ item.value }}
+                                </div>
+
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="panel-footer"> <strong> Patient name: </strong>  {{ series.Study.Patient.Name }} </div>
+                <div class="panel-footer"> <strong> Patient id: </strong> {{ series.Study.Patient.PatientID }} </div>
+                <div class="panel-footer"> <strong> Patient birthdate: </strong> {{ series.Study.Patient.BirthDate }} </div>
+                <div class="panel-footer"> <strong> Patient sex: </strong> {{ series.Study.Patient.Sex }} </div>
+            </div>
+        </div>-->
     {% if images %}
-        <table class="table table-striped table-hover ">
+        <table class="table table-striped table-hover" id="list">
             <thead>
                 <tr>
                     <th>#</th>
@@ -33,17 +86,25 @@
             </thead>
             <tbody>
             {% for image in images %}
-                <tr onclick="window.location.href='/series/{{ serie.SeriesInstanceUID }}/'; return false">
+                <tr>
                     <td> {{ image.InstanceNumber }} </td>
-                    <td>{{ image.URL }}</td>
+                    <td> {{ image.URL }} </td>
                     <td> here would be previw of picture </td>
-                    <td> here would be links to DICOM file, JPEG, json (xml) </td>
+                    <td> <form action="/get_dicom/" method="GET">
+                            <input type="hidden" value="{{ image.id }}" name="id">
+                            <button class="btn btn-link" type="submit"> <i class="fa fa-download" aria-hidden="true">DICOM</i> </button>
+                        </form>
+                        <form action="/get_jpeg/" method="GET">
+                            <input type="hidden" value="{{ image.id }}" name="id">
+                            <button class="btn btn-link" type="submit">Jpeg</button>
+                        </form>
+                        <!---<a href="/get_dicom/?StudyUID={{ image.Series.Study.StudyInstanceUID }}/" action="GET" class="btn btn-link">Download</a> --->
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     {% endif %}
-
 {% endblock %}
 </body>
 </html>
