@@ -24,6 +24,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 import os, tempfile, zipfile
 from wsgiref.util import FileWrapper
 from matplotlib.image import imsave
+from scipy.misc import toimage
+import datetime
+import uuid
+from django.utils import timezone
+
 
 
 storage = FileSystemStorage()
@@ -99,10 +104,15 @@ def wado_uri(request, token):
 
     # check if token is not valid
 
-    if not request.GET['requestType']=='WADO':
-        return HttpResponseNotFound()
-    elif request.user.profile.token != token:
+    if  not 'requestType' in request.GET or not request.GET['requestType']=='WADO':
+        print ('THERE IS NO requestType')
+        return HttpResponseNotFound
+    elif models.Profile.filter(Token=token):
+        print('TOKEN IS NOT VALID, GO AWAY')
         return HttpResponseForbidden
+    elif not 'objectUID' in request.GET:
+        print ('THERE IS NO objectUID')
+        return HttpResponseNotFound
     else:
         image = models.Image.objects.get(SOPInstanceUID=request.GET['objectUID'])
         # check series and study UIDs
@@ -111,37 +121,41 @@ def wado_uri(request, token):
         wcenter = ds[0x28, 0x1050].value
         wwidth = ds[0x28, 0x1051].value // 2
         temp = tempfile.TemporaryFile()
-        filename = ''
-        if request.GET['contentType']=='application/dicom' or not request.GET['contentType']:
+        filename = 'WADO_URI'
+        if not 'contentType' in request.GET or request.GET['contentType']=='application/dicom':
             print('dicom')
             content = 'application/dicom'
-            if request.GET['objectUID'] == 'yes':
+            filename += '.dcm'
+            if 'anonimize' in request.GET and request.GET['anonimize'] == 'yes':
                 print('need to be anonimized')
-            if request.GET('transferSyntax'):
+            if 'transferSyntax' in request.GET and request.GET('transferSyntax'):
                 if request.GET('transferSyntax') == '1.2':
                     print(1)
                 if request.GET('transferSyntax') == '1.3':
                     print(2)
                 if request.GET('transferSyntax') == '1.4':
                     print(3)
-        if request.GET['contentType']=='image/jpg':
-            print('jpg')
-            content = 'image/jpg'
-            imsave(temp, arr, wcenter - wwidth, wcenter + wwidth, 'Greys_r', 'jpeg')
-
-        if request.GET['contentType']=='image/png':
-            print('png')
-            content = 'image/png'
-            imsave(temp, arr, wcenter - wwidth, wcenter + wwidth, 'Greys_r')
-
-        if request.GET['contentType']=='text/html':
-            print('html')
-            content = 'text/html'
-            if request.GET['charset'] == 'UTF-8':
-                print('UTF-8')
-        if request.GET['contentType'] == 'image/gif':
-            print('gif')
-            content = 'image/gif'
+            ds.save_as(temp)
+        elif 'contentType' in request.GET:
+            if request.GET['contentType']=='image/jpeg':
+                print('jpg')
+                content = 'image/jpeg'
+                filename += '.jpg'
+                sci = toimage(arr, cmin=wcenter - wwidth, cmax=wcenter + wwidth)
+                sci.save(temp, 'jpeg')
+            elif request.GET['contentType']=='image/png':
+                print('png')
+                filename += '.png'
+                content = 'image/png'
+                imsave(temp, arr, wcenter - wwidth, wcenter + wwidth, 'Greys_r', 'png')
+            elif request.GET['contentType']=='text/html':
+                print('html')
+                content = 'text/html'
+                if request.GET['charset'] == 'UTF-8':
+                    print('UTF-8')
+            elif request.GET['contentType'] == 'image/gif':
+                print('gif')
+                content = 'image/gif'
 
         len = temp.tell()
         temp.seek(0)
@@ -185,15 +199,33 @@ def get_jpeg(request):
     wwidth = ds[0x28, 0x1051].value//2
 
     temp = tempfile.TemporaryFile()
-    imsave(temp, arr, wcenter-wwidth, wcenter+wwidth,'Greys_r','jpeg')
+
+    sci = toimage(arr, cmin=wcenter-wwidth, cmax=wcenter+wwidth)
+    sci.save(temp, 'jpeg')
+    #imsave(temp, arr, wcenter-wwidth, wcenter+wwidth, 'pink')
 
     len = temp.tell()
     temp.seek(0)
     wrapper = FileWrapper(temp)
-    response = HttpResponse(wrapper, content_type='image/jpg')
+    response = HttpResponse(wrapper, content_type='image/jpeg')
     response['Content-Disposition'] = 'attachment; filename=01.jpg'
     response['Content-Length'] = len
     return response
+
+'''i = Image.open('image.png')
+imgSize = i.size
+rawData = i.tostring()
+img = Image.fromstring('L', imgSize, rawData)
+img.save('lmode.png')
+
+import numpy as np
+from PIL import Image
+from rawkit.raw import Raw
+filename = '/path/to/your/image.cr2'
+raw_image = Raw(filename)
+buffered_image = np.array(raw_image.to_buffer())
+image = Image.frombytes('RGB', (raw_image.metadata.width, raw_image.metadata.height), buffered_image)
+image.save('/path/to/your/new/image.png', format='jpeg')'''
 
 @login_required
 def GetDicom(request):
@@ -261,15 +293,35 @@ def series_detail(request, SeriesInstanceUID):
 
 @login_required
 def profile(request):
-    msg = ''
-    medstatus = False
+    now = timezone.now()
+    msg = []
+    profile = models.Profile.objects.get(User=request.user)
+    NotValid = False
+    token = ''
+    valid_until = ''
     if request.method == "POST":
-        request.user.set_password(request.POST['new_password'])
-        request.user.save()
-        msg = 'Password successfully changed!'
+        if 'new_password' in request.POST:
+            request.user.set_password(request.POST['new_password'])
+            request.user.save()
+            msg['password'] = 'Password successfully changed!'
+        elif request.method == "POST" and 'days' in request.POST and profile.isMedicalPersonal:
+            if (profile.Valid_date - now) < datetime.timedelta(seconds=1):
+                profile.Valid_date = now+datetime.timedelta(days=int(request.POST['days']))
+                profile.Token = uuid.uuid1()
+                profile.save()
+                token = profile.Token
+                valid_until = profile.Valid_date.date().strftime("%d %B %Y")
+            else:
+                msg['still_valid'] = 'Token is still valid'
+                token = profile.Token
+                valid_until = profile.Valid_date.date().strftime("%d %B %Y")
     else:
-        medstatus = request.user.ProfileAdmin.isMedicalPersonal
-    return render(request, 'profile.html', {'msg': msg, 'medstatus': medstatus})
+        NotValid = (profile.Valid_date - now) < datetime.timedelta(seconds=1)
+        if not NotValid:
+            token = profile.Token
+            valid_until = profile.Valid_date.date().strftime("%d %B %Y")
+
+    return render(request, 'profile.html', {'msg': msg, 'NotValid': NotValid, 'token': token, 'valid_until': valid_until})
 
 
 class RegisterFormView(FormView):

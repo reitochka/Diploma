@@ -28,7 +28,8 @@ class Patient(models.Model):
 class Profile(models.Model):
     User = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     isMedicalPersonal = models.BooleanField(default=False)
-    token = models.CharField(max_length=200)
+    Token = models.CharField(max_length=200, blank=True)
+    Valid_date = models.DateTimeField(default=datetime.datetime.now() - datetime.timedelta(days=1))
 
     @receiver(post_save, sender=User)
     def create_user_Profile(sender, instance, created, **kwargs):
@@ -40,7 +41,7 @@ class Profile(models.Model):
         instance.Profile.save()
 
     class Meta:
-        verbose_name_plural = "MedicalStatus"
+        verbose_name_plural = "Profiles"
 
     def __str__(self):
         return str(self.isMedicalPersonal)

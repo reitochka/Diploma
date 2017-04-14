@@ -44,7 +44,10 @@
           </form>
             {% endif %}
           <ul class="nav navbar-nav navbar-right">
-          <li style="font-size: 20px"><a href="/accounts/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout {{ user.username }} </a></li>
+              {% if user.is_superuser %}
+              <li style="font-size: 20px"><a href="/admin/"><i class="fa fa-cogs" aria-hidden="true"></i> admin panel </a></li>
+              {% endif %}
+              <li style="font-size: 20px"><a href="/accounts/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout {{ user.username }} </a></li>
           </ul>
         </div>
       </div>

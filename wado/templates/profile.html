@@ -8,26 +8,70 @@
 {% block content %}
     <h1>Hello, dear {{ user.username }}!</h1><br>
 
-    <h4> Your status is
-    {% if medstatus %}
-        Medical personal, you have access to all information in DICOM files.
+    <h4> Your status is: </h4>
+    {% if user.profile.isMedicalPersonal %}
+        <h4> Medical personal, you have access to all information in DICOM files. </h4>
+        {% if not NotValid %}
+            <!--<div class="row padding">
+                <div class="well well-sm col-lg-2">
+                   <strong> {{ token }} </strong>
+                </div>
+                Token is valid until {{valid_until}}
+            </div>-->
+            <div class="row">
+                <div class="col-lg-2">
+                <div class="panel panel-default">
+                  <div class="panel-heading"> Token is valid until <strong> {{ valid_until }} </strong> </div>
+                  <div class="panel-body">
+                    {{ token }}
+                  </div>
+                </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if NotValid %}
+            <h4> You don't have valid token, for using WADO URI, please, generate token</h4>
+            <div class="row">
+                <div class="form-group col-lg-2">
+                    <form method="POST" action="{% url 'profile' %}" class="form-horizontal">
+                        {% csrf_token %}
+                        <label class="control-label">Duration</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"> days </span>
+                            <input type="number" class="form-control" name="days" value="30" placeholder="days">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">Generate Token</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
     {% else %}
-        Researcher, you have don't have access to some perspnal information in DICOM files.
+        <h4> Researcher, you have don't have access to some perspnal information in DICOM files. </h4>
     {% endif %}
-    </h4>
+
     <br>
 
-    <p>Your can change password:</p>
-
-    <form method="POST" action="{% url 'profile' %}" class="form-horizontal">
-            {% csrf_token %}
-            <input type="text" id="inputPassword" placeholder="enter new password" name="new_password" value="" >
-            <button type="submit" class="save btn btn-default">Change</button>
-    </form>
-    {% if msg %}
+    <div class="row">
+        <div class="form-group col-lg-2">
+            <form method="POST" action="{% url 'profile' %}" class="form-horizontal">
+                {% csrf_token %}
+                <label class="control-label">Change password</label>
+                <div class="input-group">
+                    <input type="password" id="inputPassword" class="form-control" placeholder="enter new password" name="new_password" value="">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Generate Token</button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% if msg.password %}
         <div class="alert alert-dismissible alert-success">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>{{ msg }}</strong>
+            <strong>{{ msg.password }}</strong>
         </div>
     {% endif %}
 {% endblock %}

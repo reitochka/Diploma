@@ -46,14 +46,6 @@ class AdvancedMedicalSearchForm(forms.Form):
     XA = forms.BooleanField(initial=True, required=False)
     XC = forms.BooleanField(initial=True, required=False)
 
-
-
-
-
-
-
-
-
     '''BirthDateMin = forms.DateField(widget=widgets.SelectDateWidget(years=YEARS), required=False, initial=datetime.date(1900, 1, 1))
     BirthDateMax = forms.DateField(widget=widgets.SelectDateWidget(years=YEARS), required=False, initial=datetime.date.today())'''
     SEX = [
