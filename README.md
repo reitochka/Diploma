@@ -6,7 +6,7 @@
 - 
 
 ## How to install:
-1rst start iwth server
+1rst start iwth server:
 ```
 $ sudo apt-get update
 $ sudo apt-get udgrade
@@ -19,5 +19,14 @@ $ sudo adduser <username>
 $ sudo usermod -a -G admin <username>
 $ sudo dpkg-statoverride --update -add root admin 4750 /bin/su
 $ su <username>
+```
+Changing locales:
+```
+$ nano /home/<username>/.bashrc:
+export LANGUAGE=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+$ sudo locale locale-gen en_US en_US.UTF-8
+$ sudo dpkg-reconfigure locales
 ```
 
