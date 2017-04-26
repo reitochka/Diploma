@@ -3,7 +3,6 @@
 - Compatible with DIMSE protocol: C-Move, C-Store, C-Find
 - Compatible with WADO protocol: WADO-URI
 - Multilanguage web interface
-- 
 
 ## How to install:
 1rst start iwth server:
