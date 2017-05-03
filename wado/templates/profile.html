@@ -9,7 +9,10 @@
     <h1>Hello, dear {{ user.username }}!</h1><br>
 
     <h4> Your status is: </h4>
-    {% if user.profile.isMedicalPersonal %}
+    {% if user.is_superuser %}
+        <h4> Admin, you are superuser here </h4>
+
+    {% elif user.profile.isMedicalPersonal %}
         <h4> Medical personal, you have access to all information in DICOM files. </h4>
         {% if not NotValid %}
             <!--<div class="row padding">
