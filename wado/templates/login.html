@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+{% load widget_tweaks %}
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href={% static 'css/Readable.css' %}>
-    <link href="https://fonts.googleapis.com/css?family=Kurale" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href={% static 'css/Journal.css' %}>
     <link rel="stylesheet" type="text/css" href={% static 'css/personal.css' %}>
     <link rel="stylesheet" href={% static 'font-awesome/css/font-awesome.min.css' %}>
+    <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
+    <script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.js' %}"></script>
 </head>
 <body>
     {% block content %}
@@ -16,11 +18,38 @@
                     <div class="panel-body">
                         <form action="" method="post" class="form-horizontal">
                             {% csrf_token %}
-                            <legend> Авторизация</legend>
-                            {{ form.as_p }}
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign in</button>
+                            <legend> Log in</legend>
+
+                            <div class="row">
+                                <div class="col-lg-8 col-lg-offset-2">
+                                    {% if form.error_messages and form.username != null %}
+                                        <div class="alert alert-dismissible alert-danger">
+                                          <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                          Please enter a correct login and password.
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-group">
+                                      <div class="input-group">
+                                        <span class="input-group-addon"> <i class="fa fa-user fa-lg" aria-hidden="true"></i> </span>
+                                          {{form.username|add_class:"form-control"|attr:"placeholder:Login"}}
+                                      </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                      <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                        {{form.password|add_class:"form-control"|attr:"placeholder:Password"}}
+                                      </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign in</button>
+                                </div>
+                            </div>
                         </form><hr>
-                        <a href="/accounts/register/"> Don't have an account? </a>
+                        <div class="btn-group">
+
+                          <a href="/ru/accounts/login/" class="btn btn-default">РУС</a>
+                          <a href="/en/accounts/login/" class="btn btn-primary">ENG</a>
+                        </div>
                     </div>
                 </div>
             </div>

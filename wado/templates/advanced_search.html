@@ -269,7 +269,10 @@
     </div>
 
     {% if series %}
-        <table class="table table-striped table-hover ">
+    <form action="/get_zip/" method="POST" id="multiple_zip">
+        {% csrf_token %}
+        </form>
+        <table class="table table-striped table-hover" id="results">
             <thead>
                 <tr>
                     <th>#</th>
@@ -287,8 +290,8 @@
             </thead>
             <tbody>
             {% for serie in series %}
-                <tr onclick="window.location.href='/series/{{ serie.SeriesInstanceUID }}/'; return false">
-                    <td> {{ serie.Study.Patient.id }} </td>
+                <tr> <!--onclick="window.location.href='/series/{{ serie.SeriesInstanceUID }}/'; return false" -->
+                    <td> <input type="checkbox" name="dict" value="{{serie.id}}" form="multiple_zip"> {{serie.id}} </td>
                     <td>{{ serie.Study.Patient.Name }}</td>
                     <td>{{ serie.Study.Patient.PatientID }}</td>
                     <td>{{ serie.Study.Patient.Age }} </td>
@@ -298,16 +301,37 @@
                     <td>{{ serie.SeriesDescription }} </td>
                     <td>{{ serie.BodyPartExamined }} </td>
                     <td>{{ serie.Study.InstitutionName }} </td>
-                    <td><form action="/get_zip/" method="GET">
+                    <td>
+                        <form action="/get_zip/" method="GET" class="div_inline_block">
                             <input type="hidden" value="{{ serie.id }}" name="id">
-                            <button class="btn btn-link" type="submit"> <i class="fa fa-file-archive-o" aria-hidden="true"> zip </i> </button>
-                        </form></td>
+                            <button class="btn btn-link" type="submit" > <i class="fa fa-file-archive-o" aria-hidden="true"> zip </i> </button>
+                        </form>
+                        <a href='/series/{{ serie.SeriesInstanceUID }}/' class="btn btn-link" >more details</a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-    {% endif %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if series.has_previous %}
+                    <a href="?page={{ series.previous_page_number }}">previous</a>
+                {% endif %}
 
+                <span class="current">
+                    Page {{ series.number }} of {{ series.paginator.num_pages }}.
+                </span>
+
+                {% if series.has_next %}
+                    <a href="?page={{ series.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+        <br>
+        <button class="btn btn-default" type="submit" form="multiple_zip"> download zip <i class="fa fa-file-archive-o" aria-hidden="true"> </i> </button>
+
+    {% endif %}
+    <br>
 {% endblock %}
 </body>
 </html>

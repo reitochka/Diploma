@@ -19,7 +19,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^accounts/login/$', views.LoginFormView.as_view(), name='login'),
+    url(r'^(?P<lang>[a-z]{2})/accounts/login/$', views.LoginFormView.as_view(), name='login'),
     url(r'^accounts/register/$', views.RegisterFormView.as_view()),
     url(r'^accounts/logout/$', views.LogoutView.as_view()),
     url(r'^search/', views.search, name='search'),
@@ -31,5 +31,5 @@ urlpatterns = [
     url(r'^get_zip/', views.send_zip, name='send_zip'),
     url(r'^get_jpeg/', views.get_jpeg, name='get_jpeg'),
     url(r'^static-path/(?P<path>[a-zA-Z0-9_-]+\.[a-zA-Z0-9]{1,4})$', views.static_path, name='static_path'),
-    url(r'^wado/(?P<token>[a-zA-Z0-9.]+)/', views.wado_uri, name='wado_uri'),
+    url(r'^wado/(?P<token>[a-zA-Z0-9.-]+)/', views.wado_uri, name='wado_uri'),
 ]

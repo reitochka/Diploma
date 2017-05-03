@@ -18,3 +18,6 @@ body {
 .padding_top {
     padding-top: 5%;
 }
+.div_inline_block {
+    display: inline-block;
+}

@@ -11,7 +11,7 @@ class Patient(models.Model):
     PatientID = models.CharField(max_length = 50, blank = True)
     Name = models.CharField(max_length = 20, blank = True)
     BirthDate = models.DateField(blank = True)
-    Age = models.DurationField(blank=True, null=True)
+    Age = models.CharField(max_length = 5, blank = True)
     #Age = models.DecimalField(max_digits = 8, decimal_places=5, blank=True, null=True,)
     SEX = [
         ('F', 'Female'),
@@ -51,8 +51,8 @@ class Study(models.Model):
         'Patient',
         on_delete = models.CASCADE,
     )
-    StudyInstanceUID = models.CharField(max_length = 50, unique=True)
-    AnonimizedStudyUID = models.CharField(max_length = 50, blank=True)
+    StudyInstanceUID = models.CharField(max_length = 64, unique=True)
+    AnonimizedStudyUID = models.CharField(max_length = 64, blank=True)
     StudyDate = models.DateField(blank = True)
     StudyTime = models.TimeField(blank = True)
     StudyID = models.CharField(max_length = 50, blank = True)
@@ -74,8 +74,8 @@ class Study(models.Model):
 
 class Series(models.Model):
     Study = models.ForeignKey('Study',on_delete = models.CASCADE,)
-    SeriesInstanceUID = models.CharField(max_length = 50, unique=True)
-    AnonimizedSeriesUID = models.CharField(max_length=50, unique=True)
+    SeriesInstanceUID = models.CharField(max_length = 64, unique=True)
+    AnonimizedSeriesUID = models.CharField(max_length=64, unique=True)
     SeriesDate = models.DateField(blank=True)
     SeriesTime = models.TimeField(blank=True)
     Modality = models.CharField(max_length = 10)
@@ -94,8 +94,8 @@ class Series(models.Model):
 
 class Image(models.Model):
     Series = models.ForeignKey('Series', on_delete=models.CASCADE,)
-    SOPInstanceUID = models.CharField(max_length=50, unique=True)
-    AnonimizedInstanceUID = models.CharField(max_length=50, unique=True)
+    SOPInstanceUID = models.CharField(max_length=64, unique=True)
+    AnonimizedInstanceUID = models.CharField(max_length=64, unique=True)
     URL = models.CharField(max_length=200, unique=True)
     InstanceNumber = models.PositiveSmallIntegerField(blank=True) # models.CharField(max_length=50, blank=True)
 

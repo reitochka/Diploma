@@ -90,13 +90,13 @@
                     <td> {{ image.InstanceNumber }} </td>
                     <td> {{ image.URL }} </td>
                     <td> here would be previw of picture </td>
-                    <td> <form action="/get_dicom/" method="GET">
+                    <td> <form action="/get_dicom/" method="GET" class="div_inline_block">
                             <input type="hidden" value="{{ image.id }}" name="id">
-                            <button class="btn btn-link" type="submit"> <i class="fa fa-download" aria-hidden="true">DICOM</i> </button>
+                            <button class="btn btn-link" type="submit"> <i class="fa fa-download" aria-hidden="true"> DICOM </i> </button>
                         </form>
-                        <form action="/get_jpeg/" method="GET">
+                        <form action="/get_jpeg/" method="GET" class="div_inline_block">
                             <input type="hidden" value="{{ image.id }}" name="id">
-                            <button class="btn btn-link" type="submit">Jpeg</button>
+                            <button class="btn btn-link" type="submit"> <i class="fa fa-file-image-o" aria-hidden="true"> Jpeg </i> </button>
                         </form>
                         <!---<a href="/get_dicom/?StudyUID={{ image.Series.Study.StudyInstanceUID }}/" action="GET" class="btn btn-link">Download</a> --->
                     </td>
