@@ -125,3 +125,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, "wado/static/")
 
 MEDIA_URL = '/wado/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "wado/media/")
+
+LOGIN_URL='/en/accounts/login/'

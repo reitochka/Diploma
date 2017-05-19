@@ -24,6 +24,7 @@ class AdvancedMedicalSearchForm(forms.Form):
     BodyPartExamined = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Body Part'}))
     InstitutionName = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Name of Institution'}))
     AllModalities = forms.BooleanField(initial=True, required=False)
+    Age = forms.CharField(max_length=5, required=False, widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Age'}))
     CR = forms.BooleanField(initial=True, required=False)
     CT = forms.BooleanField(initial=True, required=False)
     DX = forms.BooleanField(initial=True, required=False)

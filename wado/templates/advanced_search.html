@@ -44,11 +44,18 @@
                         </div>
                         {% endif %}
                         <div class="form-group">
+                            <label class="col-lg-2 control-label">Age</label>
+                            <div class="col-lg-10">
+                                {{ form.Age }}
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-lg-2 control-label">Sex</label>
                             <div class="col-lg-3">
                                 {{ form.Sex }}
                             </div>
                         </div>
+                        {% if user.profile.isMedicalPersonal %}
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Series date</label>
                                 <div class="row">
@@ -60,6 +67,7 @@
                                     </div>
                                 </div>
                         </div>
+                        {% endif %}
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Description</label>
                             <div class="col-lg-10">
@@ -255,6 +263,7 @@
                               </div>
                           </div>
 
+
                         <div class="form-group">
                             <div class="col-lg-10 col-lg-offset-2">
                                 <button type="reset" class="btn btn-default">Cancel</button>
@@ -276,11 +285,15 @@
             <thead>
                 <tr>
                     <th>#</th>
+                    {% if user.profile.isMedicalPersonal %}
                     <th> Patient's Name </th>
                     <th> ID </th>
+                    {% endif %}
                     <th> Age </th>
                     <th> Sex </th>
+                    {% if user.profile.isMedicalPersonal %}
                     <th> Series date </th>
+                    {% endif %}
                     <th> Modality </th>
                     <th> Description </th>
                     <th> Body part </th>
@@ -292,11 +305,15 @@
             {% for serie in series %}
                 <tr> <!--onclick="window.location.href='/series/{{ serie.SeriesInstanceUID }}/'; return false" -->
                     <td> <input type="checkbox" name="dict" value="{{serie.id}}" form="multiple_zip"> {{serie.id}} </td>
+                    {% if user.profile.isMedicalPersonal %}
                     <td>{{ serie.Study.Patient.Name }}</td>
                     <td>{{ serie.Study.Patient.PatientID }}</td>
+                     {% endif %}
                     <td>{{ serie.Study.Patient.Age }} </td>
                     <td>{{ serie.Study.Patient.Sex }} </td>
+                    {% if user.profile.isMedicalPersonal %}
                     <td>{{ serie.Series.Date }} </td>
+                    {% endif %}
                     <td>{{ serie.Modality }} </td>
                     <td>{{ serie.SeriesDescription }} </td>
                     <td>{{ serie.BodyPartExamined }} </td>
@@ -332,6 +349,7 @@
 
     {% endif %}
     <br>
+    &nbsp;
 {% endblock %}
 </body>
 </html>
