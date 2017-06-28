@@ -5,9 +5,11 @@
 - Multilanguage web interface
 
 ## How to install:
-1) Connect to server (change localhost to your server):
+1) Connect to server, write it in terminal on your computer (change localhost to your server):
+```
 $ ssh root@127.0.0.1
-2) After 1rst start server:
+```
+2) After 1rst start server, we need to update server:
 ```
 $ sudo apt-get update
 $ sudo apt-get udgrade
