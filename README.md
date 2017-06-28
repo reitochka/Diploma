@@ -44,7 +44,7 @@ $ ssh-copy-id <username>@server
 ```
 6) Install all needed packages:
 ```
-$ sudo apt-get install nano python3 nginx python3-setuptools python3-venv python3-dev git build-essential supervisor 
+$ sudo apt-get install nano python3 nginx python3-setuptools python3-venv python3-dev git build-essential supervisor mysql-server libmysqlclient-dev
 ```
 
 7) Create and activate virtual enviroment:
