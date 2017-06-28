@@ -113,7 +113,7 @@ $ sudo mysql_secure_installation
 ```
 $ sudo mysql -u root -p
 > CREATE DATABASE my_database CHARACTER SET UTF8;
-> CREATE <username>@localhost IDENTIFIED BY 'password';
+> CREATE USER <username>@localhost IDENTIFIED BY 'password'
 > GRANT ALL PRIVILEGES ON my_database.* TO '<username>'@'localhost';
 > FLUSH PRIVILEGES;
 > exit;
