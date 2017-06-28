@@ -4,7 +4,7 @@
 - Compatible with WADO protocol: WADO-URI
 - Multilanguage web interface
 
-## How to install:
+## How to deploy server:
 1) Connect to server, write it in terminal on your computer (change localhost to your server):
 ```
 $ ssh root@127.0.0.1
@@ -55,7 +55,14 @@ $ source <name_of_venv>/bin/activate
 (<name_of_venv>) pip install django gunicorn mysqlclient 
 ```
 ### How to install EXISTED Django-app:
-
+1) Initialize your local repository: 
+```
+$ git init
+```
+2) Clone your project from working repository:
+```
+$ git clone https://github.com/myproject.git
+```
 
 ### How to install NEW Django-app:
 1) Make new project:
@@ -73,4 +80,47 @@ INSTALLED_APPS = [
   ...
   '<name_of_app>',
 ]
+DATABASES = {
+  'default': {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': '<nameofproject>',
+    'USER': '<nameofuser>',
+    'PASSWORD': 'mypassword123',
+    'HOST': 'localhost',
+    'PORT': '',
+  }
+}
+TIME_ZONE='Europe/Moscow'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 ```
+## Let's return to deploying web-app:
+9) Collect static files in Django-app
+```
+$ python manage.py collectstatic
+```
+10) 
+```
+$ sudo nano /etc/nginx/sites-enabled/my_conf.conf
+```
+and add config:
+```
+server {
+    listen 80;
+    server_name 111.222.333.44; #либо ip, либо доменное имя
+    access_log  /var/log/nginx/example.log;
+
+    location /static/ {
+        root /opt/myenv/myproject/;
+        expires 30d;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:8000; 
+        proxy_set_header Host $server_name;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+  }
+```
+
