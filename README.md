@@ -68,6 +68,20 @@ $ git clone https://github.com/myproject.git
 3) Change <name_of_project>/settings.py:
 ```
 ALLOWED_HOSTS = ['127.0.0.1', 'your_server_host']
+```
+
+### How to install NEW Django-app:
+1) Make new project:
+```
+(<name_of_venv>) python django_admin startproject <name_of_project>
+```
+2) Make new application:
+```
+(<name_of_venv>) python manage.py startapp <name_of_app>
+```
+3) Change <name_of_project>/settings.py:
+```
+ALLOWED_HOSTS = ['127.0.0.1', 'your_server_host']
 INSTALLED_APPS = [
   ...
   '<name_of_app>',
@@ -85,20 +99,6 @@ DATABASES = {
 TIME_ZONE='Europe/Moscow'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
-```
-
-### How to install NEW Django-app:
-1) Make new project:
-```
-(<name_of_venv>) python django_admin startproject <name_of_project>
-```
-2) Make new application:
-```
-(<name_of_venv>) python manage.py startapp <name_of_app>
-```
-3) Change <name_of_project>/settings.py:
-```
-ALLOWED_HOSTS = ['127.0.0.1', 'your_server_host']
 ```
 ### How to install and run Mysql server:
 1) If version of mysql < 5.7, you need to run:
