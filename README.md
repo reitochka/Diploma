@@ -73,9 +73,9 @@ INSTALLED_APPS = [
 DATABASES = {
   'default': {
     'ENGINE': 'django.db.backends.mysql',
-    'NAME': '<nameofproject>',
-    'USER': '<nameofuser>',
-    'PASSWORD': 'mypassword123',
+    'NAME': '<my_database>',
+    'USER': '<username>',
+    'PASSWORD': 'password',
     'HOST': 'localhost',
     'PORT': '',
   }
@@ -98,12 +98,36 @@ STATIC_ROOT = os.path.join(BASE_DIR,'static')
 ```
 ALLOWED_HOSTS = ['127.0.0.1', 'your_server_host']
 ```
+### How to install and run Mysql server:
+1) If version of mysql < 5.7, you need to run:
+```
+$ sudo mysql-install_db
+```
+2) Set mysql-server and follow the instructions:
+```
+$ sudo mysql_secure_installation
+```
+3) Creatre db for Django-app:
+```
+$ sudo mysql -u root -p
+> CREATE DATABASE my_database CHARACTER SET UTF8;
+> CREATE <username>@localhost IDENTIFIED BY 'password';
+> GRATNT ALL PRIVILEGES ON my_database.* TO '<username>'@'localhost';
+> FLUSH PRIVILEGES;
+> exit;
+```
 ## Let's return to deploying web-app:
-9) Collect static files in Django-app
+9) Set database Django-app
+```
+$ python manage.py migrate
+$ python manage.py makemigrations
+$ python manage.py createsuperuser
+```
+10) Collect static files in Django-app
 ```
 $ python manage.py collectstatic
 ```
-10) Start nginx frond-end server, make new config
+11) Start nginx frond-end server, make new config
 ```
 $ sudo nano /etc/nginx/sites-enabled/my_conf.conf
 ```
@@ -133,7 +157,7 @@ $ sudo service nginx restart
 or
 $ sudo /etc/init.d/nginx restart
 ```
-11) Start gunicorn, make new gunicorn config:
+12) Start gunicorn, make new gunicorn config:
 ```
 $ nano /path/to/<name_of_project>/<name_of_project>/gunicorn.conf.py
 ```
@@ -143,7 +167,7 @@ bind = '127.0.0.1:8000'
 workers = 3
 user = '<username>'
 ```
-12) Configure and run supervisor for gunicorn:
+13) Configure and run supervisor for gunicorn:
 ```
 $ sudo nano /etc/supervisor/conf.d/<name_of_project>.conf
 ```
@@ -151,4 +175,12 @@ and add this info:
 ```
 [program <name_of_project>]
 command = /path/to/<name_of_venv>/bin/gunicorn <name_of_project>.wsgi:application -c /path/to/<name_of_project>/<name_of_project>/gunicorn.conf.py
+directory = /path/to/<name_of_project>
+user = <username>
+autorestart = true
+redidect_stderr = true
+```
+and run supervisor:
+```
+$ sudo supervisord
 ```
