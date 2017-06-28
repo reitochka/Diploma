@@ -54,4 +54,23 @@ $ source <name_of_venv>/bin/activate
 ```
 (<name_of_venv>) pip install django gunicorn mysqlclient 
 ```
-9) 
+### How to install EXISTED Django-app:
+
+
+### How to install NEW Django-app:
+1) Make new project:
+```
+(<name_of_venv>) python django_admin startproject <name_of_project>
+```
+2) Make new application:
+```
+(<name_of_venv>) python manage.py startapp <name_of_app>
+```
+3) Change <name_of_project>/settings.py:
+```
+ALLOWED_HOSTS = ['127.0.0.1', 'your_server_host']
+INSTALLED_APPS = [
+  ...
+  '<name_of_app>',
+]
+```
