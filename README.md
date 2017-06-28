@@ -97,23 +97,6 @@ STATIC_ROOT = os.path.join(BASE_DIR,'static')
 3) Change <name_of_project>/settings.py:
 ```
 ALLOWED_HOSTS = ['127.0.0.1', 'your_server_host']
-INSTALLED_APPS = [
-  ...
-  '<name_of_app>',
-]
-DATABASES = {
-  'default': {
-    'ENGINE': 'django.db.backends.mysql',
-    'NAME': '<nameofproject>',
-    'USER': '<nameofuser>',
-    'PASSWORD': 'mypassword123',
-    'HOST': 'localhost',
-    'PORT': '',
-  }
-}
-TIME_ZONE='Europe/Moscow'
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
 ```
 ## Let's return to deploying web-app:
 9) Collect static files in Django-app
@@ -152,7 +135,7 @@ $ sudo /etc/init.d/nginx restart
 ```
 11) Start gunicorn, make new gunicorn config:
 ```
-$ nano /path/to/<name_of_project>/<name_of_project>
+$ nano /path/to/<name_of_project>/<name_of_project>/gunicorn.conf.py
 ```
 and copy this:
 ```
@@ -160,4 +143,12 @@ bind = '127.0.0.1:8000'
 workers = 3
 user = '<username>'
 ```
-12) 
+12) Configure and run supervisor for gunicorn:
+```
+$ sudo nano /etc/supervisor/conf.d/<name_of_project>.conf
+```
+and add this info:
+```
+[program <name_of_project>]
+command = /path/to/<name_of_venv>/bin/gunicorn <name_of_project>.wsgi:application -c /path/to/<name_of_project>/<name_of_project>/gunicorn.conf.py
+```
