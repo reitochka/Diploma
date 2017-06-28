@@ -5,16 +5,18 @@
 - Multilanguage web interface
 
 ## How to install:
-1) 1rst start server:
+1) Connect to server (change localhost to your server):
+$ ssh root@127.0.0.1
+2) After 1rst start server:
 ```
 $ sudo apt-get update
 $ sudo apt-get udgrade
 ```
-2) Install all needed packeges:
+3) Install all needed packages:
 ```
-$ sudo apt-get install nano python3 nginx python3-setuptools python3-venv python3-dev git build-essetial supervisor
+$ sudo apt-get install nano python3 nginx python3-setuptools python3-venv python3-dev git build-essetial supervisor 
 ```
-3) Have to make new user:
+4) Have to make new user:
 ```
 $ sudo groupadd admin
 $ sudo adduser <username>
@@ -22,7 +24,7 @@ $ sudo usermod -a -G admin <username>
 $ sudo dpkg-statoverride --update -add root admin 4750 /bin/su
 $ su <username>
 ```
-4) Changing locales:
+5) Changing locales:
 ```
 $ nano /home/<username>/.bashrc
 ```
@@ -37,17 +39,17 @@ and then activate changes:
 $ sudo locale locale-gen en_US en_US.UTF-8
 $ sudo dpkg-reconfigure locales
 ```
-5) To connect to server via ssh without password, need to do on your computer:
+6) To connect to server via ssh without password, need to do on your computer:
 ```
 $ ssh-copy-id <username>@server
 ```
-6) Create and activate virtual enviroment:
+7) Create and activate virtual enviroment:
 ```
 $ python3 -m venv <name_of_venv>
 $ source <name_of_venv>/bin/activate
 ```
-7) Install all needed libraries for python:
+8) Install all needed libraries for python:
 ```
 (<name_of_venv>) pip install django gunicorn mysqlclient 
 ```
-8) 
+9) 
