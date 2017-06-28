@@ -48,6 +48,6 @@ $ source <name_of_venv>/bin/activate
 ```
 7) Install all needed libraries for python:
 ```
-pip install django gunicorn mysqlclient 
+(<name_of_venv>) pip install django gunicorn mysqlclient 
 ```
 8) 
