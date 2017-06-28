@@ -12,11 +12,11 @@ $ ssh root@127.0.0.1
 2) After 1rst start server, we need to update server:
 ```
 $ sudo apt-get update
-$ sudo apt-get udgrade
+$ sudo apt-get upgrade
 ```
 3) Install all needed packages:
 ```
-$ sudo apt-get install nano python3 nginx python3-setuptools python3-venv python3-dev git build-essetial supervisor 
+$ sudo apt-get install nano python3 nginx python3-setuptools python3-venv python3-dev git build-essential supervisor 
 ```
 4) Have to make new user:
 ```
@@ -183,4 +183,20 @@ redidect_stderr = true
 and run supervisor:
 ```
 $ sudo supervisord
+```
+
+## How to use git:
+1) Create new short name for repository
+```
+$ git remote add <myproj> master
+```
+2) Download last update 
+```
+$ git pull <myproj> master
+```
+3) Upload last update
+```
+$ git add * (or names of needed files)
+$ git commit -m 'Comment for commit'
+$ git push <myproj> master
 ```
