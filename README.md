@@ -200,3 +200,21 @@ $ git add * (or names of needed files)
 $ git commit -m 'Comment for commit'
 $ git push <myproj> master
 ```
+
+## How to use supervisor:
+1) Read updated configs
+```
+$ supervisorctl reread
+```
+2) ???
+```
+$ supervisorctl update
+```
+3) Get status of project
+```
+$ supervisorctl status <myproject>
+```
+4) Restart project
+```
+$ supervisorctl restart <myproject>
+```
