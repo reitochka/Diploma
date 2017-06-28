@@ -63,6 +63,27 @@ $ git init
 ```
 $ git clone https://github.com/myproject.git
 ```
+3) Change <name_of_project>/settings.py:
+```
+ALLOWED_HOSTS = ['127.0.0.1', 'your_server_host']
+INSTALLED_APPS = [
+  ...
+  '<name_of_app>',
+]
+DATABASES = {
+  'default': {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': '<nameofproject>',
+    'USER': '<nameofuser>',
+    'PASSWORD': 'mypassword123',
+    'HOST': 'localhost',
+    'PORT': '',
+  }
+}
+TIME_ZONE='Europe/Moscow'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
+```
 
 ### How to install NEW Django-app:
 1) Make new project:
@@ -99,11 +120,11 @@ STATIC_ROOT = os.path.join(BASE_DIR,'static')
 ```
 $ python manage.py collectstatic
 ```
-10) 
+10) Start nginx frond-end server, make new config
 ```
 $ sudo nano /etc/nginx/sites-enabled/my_conf.conf
 ```
-and add config:
+and copy this:
 ```
 server {
     listen 80;
@@ -123,4 +144,20 @@ server {
     }
   }
 ```
-
+start nginx:
+```
+$ sudo service nginx restart
+or
+$ sudo /etc/init.d/nginx restart
+```
+11) Start gunicorn, make new gunicorn config:
+```
+$ nano /path/to/<name_of_project>/<name_of_project>
+```
+and copy this:
+```
+bind = '127.0.0.1:8000'
+workers = 3
+user = '<username>'
+```
+12) 
