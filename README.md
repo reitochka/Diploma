@@ -140,9 +140,8 @@ server {
     server_name 111.222.333.44; #либо ip, либо доменное имя
     access_log  /var/log/nginx/example.log;
 
-    location /static/ {
-        root /opt/myenv/myproject/;
-        expires 30d;
+    location  /static {
+        alias /home/fwl/verify/verify/static;
     }
 
     location / {
