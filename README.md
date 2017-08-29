@@ -24,18 +24,19 @@ $ su <username>
 ```
 4) Changing locales:
 ```
-$ nano /home/<username>/.bashrc
+$ sudo nano /etc/default/locale
 ```
 add to this file info:
 ```
-export LANGUAGE=en_US.UTF-8
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
+LANGUAGE=en_US.UTF-8
+LC_ALL=en_US.UTF-8
+LANG=en_US.UTF-8
+LC_TYPE=en_US.UTF-8
 ```
 and then activate changes:
 ```
 $ sudo locale-gen en_US en_US.UTF-8
-($ LANG=en_US.utf8)
+($ sudo locale-gen en_US.UTF-8)
 $ sudo dpkg-reconfigure locales
 ```
 5) To connect to server via ssh without password, need to do on your computer:
