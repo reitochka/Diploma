@@ -175,7 +175,7 @@ $ sudo nano /etc/supervisor/conf.d/<name_of_project>.conf
 ```
 and add this info:
 ```
-[program <name_of_project>]
+[program:<name_of_project>]
 command = /path/to/<name_of_venv>/bin/gunicorn <name_of_project>.wsgi:application -c /path/to/<name_of_project>/<name_of_project>/gunicorn.conf.py
 directory = /path/to/<name_of_project>
 user = <username>
