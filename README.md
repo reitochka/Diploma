@@ -220,3 +220,21 @@ $ supervisorctl status <myproject>
 ```
 $ supervisorctl restart <myproject>
 ```
+## How to use mysql:
+1) Connect to database
+```
+$ sudo mysql -u <username> -p
+```
+2) Some commands to show some info
+```
+> SHOW DATABASEES;
+> USE <database_name>;
+> SHOW TABLES;
+> SHOW COLUMNS FROM <table_name>;
+> SELECT * FROM <table_name>
+```
+3) How to make database dump
+```
+$ mysqldump -u <username> -p dbname_old > dbname.sql
+$ mysql -u <username2> -p dbname_new < dbname.sql
+```
