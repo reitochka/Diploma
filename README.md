@@ -74,7 +74,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'your_server_host']
 ### How to install NEW Django-app:
 1) Make new project:
 ```
-(<name_of_venv>) python django_admin startproject <name_of_project>
+(<name_of_venv>) django-admin startproject <name_of_project>
 ```
 2) Make new application:
 ```
