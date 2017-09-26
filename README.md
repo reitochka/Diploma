@@ -238,3 +238,7 @@ $ sudo mysql -u <username> -p
 $ mysqldump -u <username> -p dbname_old > dbname.sql
 $ mysql -u <username2> -p dbname_new < dbname.sql
 ```
+4) How to start mysql server
+```
+$ sudo /etc/init.d/mysql start
+```
