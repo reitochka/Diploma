@@ -242,3 +242,7 @@ $ mysql -u <username2> -p dbname_new < dbname.sql
 ```
 $ sudo /etc/init.d/mysql start
 ```
+5) delete smth
+```
+> DLETE FROM <table_name> WHERE <column> like '%some_text%' LIMIT 1;
+```
