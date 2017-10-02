@@ -142,7 +142,7 @@ server {
     access_log  /var/log/nginx/example.log;
 
     location  /static {
-        alias /home/fwl/verify/verify/static;
+        alias /home/admin/project/app/static;
     }
 
     location / {
