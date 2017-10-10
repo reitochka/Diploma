@@ -233,7 +233,7 @@ $ sudo mysql -u <username> -p
 > SHOW TABLES;
 > SHOW COLUMNS FROM <table_name>;
 > SELECT * FROM <table_name>
-> DLETE FROM <table_name> WHERE <column> like '%some_text%' LIMIT 1;
+> DELETE FROM <table_name> WHERE <column> like '%some_text%' LIMIT 1;
 ```
 3) How to make database dump
 ```
