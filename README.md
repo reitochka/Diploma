@@ -24,6 +24,7 @@ $ su <username>
 ```
 4) Changing locales:
 ```
+$ sudo apt-get install nano
 $ sudo nano /etc/default/locale
 ```
 add to this file info:
@@ -45,7 +46,7 @@ $ ssh-copy-id <username>@server
 ```
 6) Install all needed packages:
 ```
-$ sudo apt-get install nano python3 nginx python3-setuptools python3-venv python3-dev git build-essential supervisor mysql-server libmysqlclient-dev
+$ sudo apt-get install python3 nginx python3-setuptools python3-venv python3-dev git build-essential supervisor mysql-server libmysqlclient-dev
 ```
 
 7) Create and activate virtual enviroment:
