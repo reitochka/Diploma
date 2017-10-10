@@ -190,7 +190,7 @@ $ sudo supervisord
 ## How to use git:
 1) Create new short name for repository
 ```
-$ git remote add <myproj> master
+$ git remote add <myproj> https://github.com/reitochka/Diploma.git
 ```
 2) Download last update 
 ```
